@@ -1,8 +1,16 @@
 REST API - JSON
 
-GET /users - list all users
-GET /users/1 - get the user with id 1
-GET /users/2 - get the user with id 2
+GET /users - list all users (HTML Document Render) - Done
+GET /api/users - List all users JSON - Hybrid server - Done
+if api is not there then it means it will give the html 
+otherwise it will give JSON Data
+
+GET /users/1 - get the user with id 1 - Done
+GET /users/2 - get the user with id 2 - Done
+
+Dynamic path parameters
+GET /api/users/:id - Done
+:id means id is dynamic | variable
 
 POST /users - Create new user
 
