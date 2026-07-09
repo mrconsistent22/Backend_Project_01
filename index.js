@@ -4,9 +4,28 @@ const app = express();
 const fs = require('fs')
 const port = 3000;
 
-//Middleware - Plugin that can be used to modify the request and response objects
+// Middleware - Plugin that can be used to modify the request and response objects
 // urlencoded is used to parse the data sent in the request body, it is used when we send data from a form 
 app.use(express.urlencoded({ extended: false }));
+
+app.use((req, res, next) => {
+    console.log("hello from middleware 1")
+    req.myUserName = "Tejas Shinde"
+    fs.appendFile('./log.txt', `${Date.now()}: ${req.method}: ${req.path}`, (err, data) => {
+         next();
+    })
+    //return res.json({msg: "hello from middleware 1"})
+   
+})
+// next() is used to pass the control to the next middleware function, 
+// if we don't call next() then the request will be stuck in this middleware and will not reach the route handler
+
+app.use((req, res, next) => {
+    console.log("hello from middleware 2")
+    // return res.end("hey")
+    next();
+})
+
 
 //Routes
 
@@ -24,6 +43,7 @@ app.get('/users', (req, res) => {
 //REST API
 // '/api' means it will give JSON data instead of HTML data
 app.get('/api/users', (req, res) => {
+    // console.log("get route", req.myUserName)
     return res.json(users);
 })
 
