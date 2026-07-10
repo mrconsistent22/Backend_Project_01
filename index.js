@@ -43,7 +43,8 @@ app.get('/users', (req, res) => {
 //REST API
 // '/api' means it will give JSON data instead of HTML data
 app.get('/api/users', (req, res) => {
-    console.log(req.headers)
+    //console.log(req.headers)
+    if(!user) return res.status(404).json({msg: "User not found"})
     res.setHeader('X-MyName',"Tejas Shinde" ) // custom header, we can set any custom header in the response
     // Always add X to the custom header name to avoid conflicts with standard headers
     // console.log("get route", req.myUserName)
@@ -63,10 +64,13 @@ app.get('/api/users', (req, res) => {
 app.post('/api/users', (req, res) => {
     // TO DO: Create user - 
     const body =req.body;
+    if(!body || !body.first_name || !body.last_name || !body.email || !body.gender || !body.job_title){
+        return res.status(400).json({msg: "Missing required fields"})
+    }
     console.log('Body: ', body)
     users.push({...body, id: users.length + 1})
     fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (err, data) => {
-        return res.json({status: "success", id: users.length})
+        return res.status(201).json({status: "success", id: users.length})
     })
     
 })
