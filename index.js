@@ -43,6 +43,9 @@ app.get('/users', (req, res) => {
 //REST API
 // '/api' means it will give JSON data instead of HTML data
 app.get('/api/users', (req, res) => {
+    console.log(req.headers)
+    res.setHeader('X-MyName',"Tejas Shinde" ) // custom header, we can set any custom header in the response
+    // Always add X to the custom header name to avoid conflicts with standard headers
     // console.log("get route", req.myUserName)
     return res.json(users);
 })
